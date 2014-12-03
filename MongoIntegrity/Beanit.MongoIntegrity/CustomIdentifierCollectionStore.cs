@@ -1,35 +1,64 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using MongoDB.Bson;
+using MongoDB.Driver.Builders;
+using MongoDB.Driver.Linq;
+using MongoDB.Driver;
 
 namespace Beanit.MongoIntegrity
 {
     public abstract class CustomIdentifierCollectionStore<TIdentifier, TDocument> : ICollectionStore<TIdentifier, TDocument> where TDocument : IDocument<TIdentifier>
     {
+        private readonly MongoDatabase _mongoDatabase;
+        private MongoCollection<TDocument> _collection;
         public abstract string CollectionName { get; }
+
+        protected MongoCollection<TDocument> Collection
+        {
+            get
+            {
+                if (_collection == null)
+                {
+                    _collection = _mongoDatabase.GetCollection<TDocument>(CollectionName);
+                }
+
+                return _collection;
+            }
+        }
+
+
+        public CustomIdentifierCollectionStore(MongoDatabase mongoDatabase)
+        {
+            _mongoDatabase = mongoDatabase;
+            
+        }
 
         public IEnumerable<TDocument> Get()
         {
-            throw new NotImplementedException();
+            return Collection.FindAllAs<TDocument>();
         }
 
         public TDocument Get(TIdentifier id)
         {
-            throw new NotImplementedException();
+            return Collection.AsQueryable().Single(x => x.Id.Equals(id));
         }
 
         public void Update(TDocument document)
         {
-            throw new NotImplementedException();
+            Collection.Update(
+                Query.EQ("_id", BsonValue.Create(document.Id)),
+                MongoDB.Driver.Builders.Update.Replace(document));
         }
 
         public void Add(TDocument document)
         {
-            throw new NotImplementedException();
+            Collection.Insert(document);
         }
 
         public void Delete(TIdentifier id)
         {
-            throw new NotImplementedException();
+            Collection.Remove(Query.EQ("_id", BsonValue.Create(id)));
         }
     }
 }

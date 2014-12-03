@@ -45,9 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExampleStore\Customer.cs" />
+    <Compile Include="ExampleStore\CustomerStore.cs" />
     <Compile Include="CustomIdentifierCollectionStore.cs" />
     <Compile Include="ICollectionStore.cs" />
     <Compile Include="IDocument.cs" />
+    <Compile Include="ObjectIdCollectionStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
