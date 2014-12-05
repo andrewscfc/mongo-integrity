@@ -7,7 +7,7 @@ using MongoDB.Driver.Linq;
 
 namespace Beanit.MongoIntegrity.CollectionStore
 {
-    public abstract class CustomIdentifierCollectionStore<TIdentifier, TDocument> : ICollectionStore<TIdentifier, TDocument> where TDocument : IDocument<TIdentifier>
+    public abstract class CollectionStoreRaw<TIdentifier, TDocument> : ICollectionStore<TIdentifier, TDocument> where TDocument : IDocument<TIdentifier>
     {
         private readonly MongoDatabase _mongoDatabase;
         private MongoCollection<TDocument> _collection;
