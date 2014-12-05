@@ -1,8 +1,9 @@
-﻿using MongoDB.Driver;
+﻿using Beanit.MongoIntegrity.CollectionStore.ObjectId;
+using MongoDB.Driver;
 
 namespace Beanit.MongoIntegrity.ExampleStore
 {
-    public class CustomerStore : ObjectIdCollectionStore<Customer>
+    public class CustomerStore : CollectionStoreObjectId<Customer>
     {
         public CustomerStore(MongoDatabase mongoDatabase) : base(mongoDatabase)
         {

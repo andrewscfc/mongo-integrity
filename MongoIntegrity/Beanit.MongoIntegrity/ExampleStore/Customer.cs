@@ -1,8 +1,9 @@
-﻿using MongoDB.Bson;
+﻿using Beanit.MongoIntegrity.CollectionStore.ObjectId;
+using MongoDB.Bson;
 
 namespace Beanit.MongoIntegrity.ExampleStore
 {
-    public class Customer : IDocument<ObjectId>
+    public class Customer : IDocumentObjectId
     {
         public ObjectId Id { get; set; }
     }

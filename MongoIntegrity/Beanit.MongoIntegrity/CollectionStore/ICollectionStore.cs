@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Beanit.MongoIntegrity
+namespace Beanit.MongoIntegrity.CollectionStore
 {
     public interface ICollectionStore<in TIdentifier, TDocument> where TDocument : IDocument<TIdentifier>
     {

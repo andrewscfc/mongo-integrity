@@ -47,10 +47,11 @@
   <ItemGroup>
     <Compile Include="ExampleStore\Customer.cs" />
     <Compile Include="ExampleStore\CustomerStore.cs" />
-    <Compile Include="CustomIdentifierCollectionStore.cs" />
-    <Compile Include="ICollectionStore.cs" />
-    <Compile Include="IDocument.cs" />
-    <Compile Include="ObjectIdCollectionStore.cs" />
+    <Compile Include="CollectionStore\CustomIdentifierCollectionStore.cs" />
+    <Compile Include="CollectionStore\ICollectionStore.cs" />
+    <Compile Include="CollectionStore\IDocument.cs" />
+    <Compile Include="CollectionStore\ObjectId\IDocumentObjectId.cs" />
+    <Compile Include="CollectionStore\ObjectId\CollectionStoreObjectId.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
