@@ -3,8 +3,7 @@ using MongoDB.Bson;
 
 namespace Beanit.MongoIntegrity.ExampleStore
 {
-    public class Customer : IDocumentObjectId
+    public class Customer : DocumentObjectId
     {
-        public ObjectId Id { get; set; }
     }
 }

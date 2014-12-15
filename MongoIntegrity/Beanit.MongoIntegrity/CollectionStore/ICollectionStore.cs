@@ -1,18 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace Beanit.MongoIntegrity.CollectionStore
 {
-    public interface ICollectionStore<in TIdentifier, TDocument> where TDocument : IDocument<TIdentifier>
+    public interface ICollectionStore
     {
-        IEnumerable<TDocument> Get();
+        IEnumerable Get();
 
-        TDocument Get(TIdentifier id);
+        IDocument Get(object id);
 
-        void Update(TDocument document);
+        void Update(IDocument document);
 
-        void Add(TDocument document);
+        void Add(IDocument document);
 
-        void Delete(TIdentifier id);
-
+        void Delete(object id);
     }
 }

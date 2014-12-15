@@ -5,30 +5,19 @@ using Beanit.MongoIntegrity.CollectionStore;
 namespace Beanit.MongoIntegrity
 {
     public class TransactionRunner<TDocument, TIdentifier, TCollectionStore> : ITransactionRunner<TIdentifier, TDocument, TCollectionStore> 
-        where TDocument : IDocument<TIdentifier>
-        where TCollectionStore : ICollectionStore<TIdentifier, TDocument>
+        where TDocument : ITypedDocument<TIdentifier>
+        where TCollectionStore : ITypedCollectionStore<TIdentifier, TDocument>
     {
-        private IDictionary<Type, object> _locks;
+        private readonly IStoreLockProvider _storeLockProvider;
 
-        public TransactionRunner()
+        public TransactionRunner(IStoreLockProvider storeLockProvider)
         {
-            _locks =new Dictionary<Type, object>();
+            _storeLockProvider = storeLockProvider;
         }
 
         public void ExecuteTransaction(TDocument document, TransactionOperation operation)
         {
-            object storeLock;
-
-            lock (_locks)
-            {
-                var storeType = typeof (TCollectionStore);
-                if (!_locks.ContainsKey(storeType))
-                {
-                    _locks.Add(storeType, new object());
-                }
-
-                storeLock = _locks[storeType];
-            }
+            object storeLock = _storeLockProvider.GetLock<TCollectionStore>();
 
             lock (storeLock)
             {

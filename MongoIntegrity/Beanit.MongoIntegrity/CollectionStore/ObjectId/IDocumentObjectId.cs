@@ -1,6 +1,6 @@
 ﻿namespace Beanit.MongoIntegrity.CollectionStore.ObjectId
 {
-    public interface IDocumentObjectId : IDocument<MongoDB.Bson.ObjectId>
+    public interface IDocumentObjectId : ITypedDocument<MongoDB.Bson.ObjectId>
     {
     }
 }

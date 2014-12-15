@@ -1,7 +1,14 @@
-﻿namespace Beanit.MongoIntegrity.CollectionStore
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Beanit.MongoIntegrity.CollectionStore
 {
-    public interface IDocument<TIdentifer>
+    public interface IDocument
     {
-        TIdentifer Id { get; set; }
+        object Id { get; set; }
     }
 }

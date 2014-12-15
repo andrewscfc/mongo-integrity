@@ -2,14 +2,14 @@ using System.Collections.Generic;
 
 namespace Beanit.MongoIntegrity.CollectionStore
 {
-    public class TransactionalCollectionStore<TIdentifier, TDocument> : ITransactionalCollectionStore<TIdentifier, TDocument> where TDocument : IDocument<TIdentifier>
+    public class TransactionalCollectionStore<TIdentifier, TDocument> : ITransactionalCollectionStore<TIdentifier, TDocument> where TDocument : ITypedDocument<TIdentifier>
     {
-        private readonly ITransactionRunner<TIdentifier, TDocument, ICollectionStore<TIdentifier, TDocument>> _transactionRunner;
-        private readonly ICollectionStore<TIdentifier, TDocument> _rawCollectionStore;
+        private readonly ITransactionRunner<TIdentifier, TDocument, ITypedCollectionStore<TIdentifier, TDocument>> _transactionRunner;
+        private readonly ITypedCollectionStore<TIdentifier, TDocument> _rawCollectionStore;
 
         public TransactionalCollectionStore(
-            ITransactionRunner<TIdentifier, TDocument, ICollectionStore<TIdentifier, TDocument>> transactionRunner,
-            ICollectionStore<TIdentifier,TDocument> rawCollectionStore)
+            ITransactionRunner<TIdentifier, TDocument, ITypedCollectionStore<TIdentifier, TDocument>> transactionRunner,
+            ITypedCollectionStore<TIdentifier,TDocument> rawCollectionStore)
         {
             _transactionRunner = transactionRunner;
             _rawCollectionStore = rawCollectionStore;
