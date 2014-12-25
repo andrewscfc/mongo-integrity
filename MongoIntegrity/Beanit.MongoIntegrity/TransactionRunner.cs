@@ -5,7 +5,7 @@ using Beanit.MongoIntegrity.CollectionStore;
 namespace Beanit.MongoIntegrity
 {
     public class TransactionRunner<TDocument, TIdentifier, TCollectionStore> : ITransactionRunner<TIdentifier, TDocument, TCollectionStore> 
-        where TDocument : ITypedDocument<TIdentifier>
+        where TDocument : ITypedDocument<TIdentifier> 
         where TCollectionStore : ITypedCollectionStore<TIdentifier, TDocument>
     {
         private readonly IStoreLockProvider _storeLockProvider;
@@ -15,13 +15,13 @@ namespace Beanit.MongoIntegrity
             _storeLockProvider = storeLockProvider;
         }
 
-        public void ExecuteTransaction(TDocument document, TransactionOperation operation)
+        public IEnumerable<TransactionFailure> ExecuteTransaction(TDocument document, TransactionOperation operation)
         {
             object storeLock = _storeLockProvider.GetLock<TCollectionStore>();
 
             lock (storeLock)
             {
-                
+                return new TransactionFailure[]{};
             }
         }
     }

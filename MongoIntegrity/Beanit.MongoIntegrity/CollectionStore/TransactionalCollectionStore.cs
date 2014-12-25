@@ -1,44 +1,38 @@
 using System.Collections.Generic;
+using MongoDB.Driver;
 
 namespace Beanit.MongoIntegrity.CollectionStore
 {
-    public class TransactionalCollectionStore<TIdentifier, TDocument> : ITransactionalCollectionStore<TIdentifier, TDocument> where TDocument : ITypedDocument<TIdentifier>
+    public abstract class TransactionalCollectionStore<TIdentifier, TDocument> : 
+        CollectionStoreRaw<TIdentifier, TDocument>,
+        ITransactionalCollectionStore<TIdentifier, TDocument> where TDocument : ITypedDocument<TIdentifier>
     {
         private readonly ITransactionRunner<TIdentifier, TDocument, ITypedCollectionStore<TIdentifier, TDocument>> _transactionRunner;
         private readonly ITypedCollectionStore<TIdentifier, TDocument> _rawCollectionStore;
 
         public TransactionalCollectionStore(
-            ITransactionRunner<TIdentifier, TDocument, ITypedCollectionStore<TIdentifier, TDocument>> transactionRunner,
-            ITypedCollectionStore<TIdentifier,TDocument> rawCollectionStore)
+            MongoDatabase mongoDatabase,
+            ITransactionRunner<TIdentifier, TDocument, ITypedCollectionStore<TIdentifier, TDocument>> transactionRunner
+            ) : 
+            base(mongoDatabase)
         {
             _transactionRunner = transactionRunner;
-            _rawCollectionStore = rawCollectionStore;
         }
 
-        public IEnumerable<TDocument> Get()
+        public IEnumerable<TransactionFailure> Update(TDocument document)
         {
-            return _rawCollectionStore.Get();
+            return _transactionRunner.ExecuteTransaction(document, TransactionOperation.Update);
         }
 
-        public TDocument Get(TIdentifier id)
+        public IEnumerable<TransactionFailure> Add(TDocument document)
         {
-            return _rawCollectionStore.Get(id);
+            return _transactionRunner.ExecuteTransaction(document, TransactionOperation.Add);
         }
 
-        public void Update(TDocument document)
-        {
-            _transactionRunner.ExecuteTransaction(document, TransactionOperation.Update);
-        }
-
-        public void Add(TDocument document)
-        {
-            _transactionRunner.ExecuteTransaction(document, TransactionOperation.Add);
-        }
-
-        public void Delete(TIdentifier id)
+        public IEnumerable<TransactionFailure> Delete(TIdentifier id)
         {
             var document = _rawCollectionStore.Get(id);
-            _transactionRunner.ExecuteTransaction(document, TransactionOperation.Delete);
+            return _transactionRunner.ExecuteTransaction(document, TransactionOperation.Delete);
         }
     }
 }

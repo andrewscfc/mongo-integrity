@@ -11,6 +11,6 @@ namespace Beanit.MongoIntegrity
         where TDocument : ITypedDocument<TIdentifier>
         where TCollectionStore : ITypedCollectionStore<TIdentifier, TDocument>
     {
-        void ExecuteTransaction(TDocument document, TransactionOperation operation);
+        IEnumerable<TransactionFailure> ExecuteTransaction(TDocument document, TransactionOperation operation);
     }
 }

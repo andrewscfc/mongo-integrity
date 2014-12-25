@@ -6,8 +6,8 @@ namespace Beanit.MongoIntegrity.CollectionStore
     {
         IEnumerable<TDocument> Get();
         TDocument Get(TIdentifier id);
-        void Update(TDocument document);
-        void Add(TDocument document);
-        void Delete(TIdentifier id);
+        IEnumerable<TransactionFailure> Update(TDocument document);
+        IEnumerable<TransactionFailure> Add(TDocument document);
+        IEnumerable<TransactionFailure> Delete(TIdentifier id);
     }
 }
